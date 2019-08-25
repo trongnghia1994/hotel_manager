@@ -16,13 +16,15 @@ POST /api/v1/reservations
 POST /api/v1/auth/login
 4. Logout  
 POST /api/v1/auth/login  
-Header: Authorization ...   
-5. Create room inventory  
+Header: Authorization ...  
+(pass token in *Authorization* header)     
+5. Create room inventory (Permission *inventory.add* required)  
 POST /api/v1/roomInventories    
-Header: Authorization ...     
+Header: Authorization ...   
+(pass token in *Authorization* header)  
 ...
 
-Example users:  
+Test users:  
 1. superuser: all permissions  
 	super_user@gmail.com 123456	
 2. admin: all permissions  

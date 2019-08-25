@@ -25,7 +25,7 @@ hotel_fields = api.model('Hotel', {
 
 
 @api.route('/')
-@api.doc(security='authToken', responses={401: 'Unauthorized'})
+@api.doc(security='authToken', responses={401: 'Unauthorized', 403: 'Forbidden'})
 class HotelResource(Resource):
     @login_required("hotel.add")
     @api.expect(hotel_fields, validate=True)

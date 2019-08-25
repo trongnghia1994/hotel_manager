@@ -31,7 +31,7 @@ def login_required(permission=None):
             current_app.logger.info(token_data)
             if token_data and permission:
                 if not has_permission(token_data['sub'], permission):
-                    abort(401)
+                    abort(403)
 
             return fn(token_data=token_data, *args, **kwargs)
 

@@ -10,8 +10,8 @@ reservation_fields = api.model('Reservation', {
     '_id': fields.String(readonly=True, example="5d60fee168a3ff141856cba2"),
     'status': fields.String(readonly=True, example="pending"),
     'room_inventory_id': fields.String(required=True, example="5d60fee168a3ff141856cba2"),
-    'check_in': fields.String(required=True, example="2019-08-24T09:00:00.000Z"),
-    'check_out': fields.String(required=True, example="2019-08-25T09:00:00.000Z"),
+    'check_in': fields.String(required=True, example="2019-08-24"),
+    'check_out': fields.String(required=True, example="2019-08-25"),
     'adults': fields.Integer(required=True, example=2),
     'children': fields.Integer(required=True, example=1),
     'first_name': fields.String(required=True, example="Nghia"),
@@ -48,7 +48,7 @@ conf_parser = reqparse.RequestParser()
 conf_parser.add_argument('conf_number', required=True, help='1: confirmed, 0: cancelled', choices=('1', '0'))
 
 
-@api.doc(security='authToken', responses={200: 'Success', 401: 'Unauthorized'})
+@api.doc(security='authToken', responses={401: 'Unauthorized', 403: 'Forbidden'})
 @api.route('/<string:reservation_id>/confirmation')
 class ReservationResource(Resource):
     @login_required("reservation.confirm")

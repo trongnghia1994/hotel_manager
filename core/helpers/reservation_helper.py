@@ -14,12 +14,12 @@ def confirm_reservation(reservation_id, conf_number):
 
 
 def create_reservation(payload):
-    check_in = datetime.strptime(payload['check_in'], "%Y-%m-%dT%H:%M:%S.%fZ")
-    check_out = datetime.strptime(payload['check_out'], "%Y-%m-%dT%H:%M:%S.%fZ")
+    check_in = datetime.strptime(payload['check_in'], "%Y-%m-%d")
+    check_out = datetime.strptime(payload['check_out'], "%Y-%m-%d")
     room_inventory = RoomInventory.find_room_inventory(payload['room_inventory_id'])
 
     for rate in room_inventory.daily_rates:
-        if check_in <= rate.date <= check_out:
+        if rate.remain > 0 and (check_in <= rate.date < check_out):
             rate.remain -= 1
 
     room_inventory.save()

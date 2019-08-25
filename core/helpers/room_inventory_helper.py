@@ -18,7 +18,7 @@ def search(args):
     utcnow = datetime.utcnow()
     for room_inventory in room_inventories:
         # Check for available rooms
-        if not room_inventory.sell_start_date <= utcnow <= room_inventory.sell_end_date:
+        if not room_inventory.sell_start_date <= utcnow < room_inventory.sell_end_date:
             continue
 
         for rate in room_inventory.daily_rates:

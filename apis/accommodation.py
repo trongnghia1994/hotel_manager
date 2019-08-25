@@ -17,7 +17,7 @@ accommodation_fields = api.model('Accommodation', {
 })
 
 
-@api.doc(security='authToken', responses={401: 'Unauthorized'})
+@api.doc(security='authToken', responses={401: 'Unauthorized', 403: 'Forbidden'})
 @api.route('/')
 class AccommodationResource(Resource):
     @api.expect(accommodation_fields, validate=True)

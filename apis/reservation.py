@@ -19,6 +19,7 @@ reservation_fields = api.model('Reservation', {
     'email': fields.String(required=True, example="nghia@gmail.com"),
     'phone': fields.String(required=True, example="84xxx"),
     'message': fields.String(required=True, example="Sample message"),
+    'conf_number': fields.String(readonly=True, example="1"),
 })
 
 re_parser = reqparse.RequestParser()
@@ -27,10 +28,11 @@ re_parser.add_argument('hotel_id', required=True, help='Hotel id cannot be blank
 
 @api.route('/')
 class ReservationsResource(Resource):
-    @api.doc(responses={200: 'Success'})
+    @api.doc(security='authToken', responses={200: 'Success', 401: 'Unauthorized', 403: 'Forbidden'})
     @api.expect(re_parser)
     @api.marshal_list_with(reservation_fields)
-    def get(self):
+    @login_required("reservation.view")
+    def get(self, token_data):
         '''Get reservations'''
         args = re_parser.parse_args()
         reservations = find_reservations_by_hotel(args['hotel_id'])

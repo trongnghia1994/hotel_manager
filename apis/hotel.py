@@ -8,11 +8,11 @@ api = Namespace('hotel', description='Hotel related operations')
 
 hotel_fields = api.model('Hotel', {
     '_id': fields.String(readonly=True),
-    'name': fields.String(required=True),
+    'name': fields.String(required=True, example="Intercontinental SG"),
     'description': fields.String(required=True),
     'timezone': fields.String(required=True),
     'currency': fields.String(required=True),
-    'address': fields.String(required=True),
+    'address': fields.String(required=True, example="Saigon"),
     'website': fields.String(required=True),
     'logo_url': fields.String(readonly=True),
     'cover_url': fields.String(readonly=True),

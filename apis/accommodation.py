@@ -10,10 +10,10 @@ api = Namespace('accommodation', description='Accomodation related operations', 
 
 accommodation_fields = api.model('Accommodation', {
     '_id': fields.String(readonly=True),
-    'hotel_id': fields.String(required=True),
+    'hotel_id': fields.String(required=True, example="5d5ff40668a3ff060c2df835"),
     'name': fields.String(required=True),
     'description': fields.String(required=True),
-    'max_guests': fields.Integer(required=True),
+    'max_guests': fields.Integer(required=True, example=5),
 })
 
 

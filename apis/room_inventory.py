@@ -14,7 +14,7 @@ daily_rates_fields = api.model('Daily Rates', {
     'date': fields.DateTime(required=True, example="2019-08-25T00:00:00.000Z"),
     'quantity': fields.Integer(required=True, example=10),
     'remain': fields.Integer(required=True, example=10),
-    'rate': fields.Float(required=True, rate=1.0),
+    'rate': fields.Float(required=True, rate=20.0),
 })
 
 room_inventory_fields = api.model('Room Inventory', {

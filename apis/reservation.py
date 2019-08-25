@@ -22,7 +22,7 @@ reservation_fields = api.model('Reservation', {
 })
 
 re_parser = reqparse.RequestParser()
-re_parser.add_argument('hotel_id', required=True, help='Hotel id cannot be blank')
+re_parser.add_argument('hotel_id', required=True, help='Hotel id cannot be blank. Eg: 5d5ff40668a3ff060c2df835')
 
 
 @api.route('/')

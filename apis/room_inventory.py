@@ -30,7 +30,7 @@ room_inventory_fields = api.model('Room Inventory', {
 })
 
 ri_parser = reqparse.RequestParser()
-ri_parser.add_argument('hotel_id', location='args', help='Hotel id cannot be blank')
+ri_parser.add_argument('hotel_id', location='args', help='Hotel id cannot be blank. Eg: 5d5ff40668a3ff060c2df835')
 
 
 @api.route('/')
@@ -58,10 +58,10 @@ class RoomInventoriesResource(Resource):
 
 
 search_parser = reqparse.RequestParser()
-search_parser.add_argument('hotel_id', required=True, help='Hotel id cannot be blank')
-search_parser.add_argument('checkIn', required=True, help='Checkin cannot be blank')
-search_parser.add_argument('checkOut', required=True, help='Checkout cannot be blank')
-search_parser.add_argument('adults', type=int, required=True, help='Adults cannot be blank')
+search_parser.add_argument('hotel_id', required=True, help='Hotel id cannot be blank. Eg: 5d5ff40668a3ff060c2df835')
+search_parser.add_argument('checkIn', required=True, help='Checkin cannot be blank. Eg: 2019-08-25T07:41:09.975Z')
+search_parser.add_argument('checkOut', required=True, help='Checkout cannot be blank. Eg: 2019-08-26T07:41:09.975Z')
+search_parser.add_argument('adults', type=int, required=True, help='Adults cannot be blank. Eg: 3')
 
 
 @api.route('/availableItems')

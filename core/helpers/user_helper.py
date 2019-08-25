@@ -1,7 +1,7 @@
-import jwt
 import traceback
 from datetime import datetime, timedelta
 
+import jwt
 from bson import ObjectId
 from flask import current_app
 

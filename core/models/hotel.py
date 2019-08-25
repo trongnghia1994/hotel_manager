@@ -22,4 +22,4 @@ class Hotel(MongoModel):
 
     @staticmethod
     def find_hotel(id):
-        return Hotel.objects.get({'_id': id})
+        return Hotel.objects.get({'_id': ObjectId(id)})

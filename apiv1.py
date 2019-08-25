@@ -11,7 +11,8 @@ blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
 api = Api(blueprint,
           title='API',
           version='1.0',
-          description='This is an API',
+          description='RESTFul API web services',
+          doc='/docs'
           )
 
 api.add_namespace(auth, path='/auth')

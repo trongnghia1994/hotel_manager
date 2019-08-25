@@ -1,14 +1,14 @@
 from flask import request, session, current_app
 from flask_restplus import Namespace, Resource, fields
 
+from common import authorizations
 from core.helpers.user_helper import login_user
 from decorators import login_required
-from common import authorizations
 
 api = Namespace('auth', description='Auth related operations', authorizations=authorizations)
 
 login_fields = api.model('Login', {
-    'email': fields.String(required=True, description='User email to login', example="nghia@gmail.com"),
+    'email': fields.String(required=True, description='User email to login', example="admin@gmail.com"),
     'password': fields.String(required=True, description='User password', example="123456"),
 })
 
@@ -19,7 +19,7 @@ login_resp_fields = api.model('LoginResponse', {
 
 @api.route('/login')
 @api.doc(responses={200: 'Success', 401: 'Unauthorized'})
-class Login(Resource):
+class LoginResource(Resource):
     @api.expect(login_fields, validate=True)
     @api.marshal_with(login_resp_fields)
     def post(self):
@@ -36,7 +36,7 @@ class Login(Resource):
 
 @api.route('/logout')
 @api.doc(security="authToken", responses={200: 'Success', 401: 'Unauthorized'})
-class Logout(Resource):
+class LogoutResource(Resource):
     @login_required()
     def post(self, token_data):
         '''Do logout'''

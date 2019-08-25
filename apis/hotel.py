@@ -3,6 +3,7 @@ from datetime import datetime
 from flask_restplus import Namespace, Resource, fields
 
 from core.models.hotel import Hotel
+from decorators import login_required
 
 api = Namespace('hotel', description='Hotel related operations')
 
@@ -24,10 +25,12 @@ hotel_fields = api.model('Hotel', {
 
 
 @api.route('/')
+@api.doc(security='authToken', responses={401: 'Unauthorized'})
 class HotelResource(Resource):
+    @login_required("hotel.add")
     @api.expect(hotel_fields, validate=True)
-    @api.marshal_with(hotel_fields, code=201, mask='_id')
-    def post(self):
+    @api.marshal_with(hotel_fields, code=201, description='Created', mask='_id')
+    def post(self, token_data):
         '''Create hotel'''
         hotel = Hotel.from_document(api.payload)
         hotel.created_at = datetime.utcnow()

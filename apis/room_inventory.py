@@ -3,10 +3,10 @@ from datetime import datetime
 from flask_restplus import Namespace, Resource, fields
 from flask_restplus import reqparse
 
-from core.helpers.room_inventory_helper import search
+from common import authorizations
+from core.helpers.room_inventory_helper import find_room_inventories_by_hotel, search
 from core.models import RoomInventory
 from decorators import login_required
-from common import authorizations
 
 api = Namespace('roomInventory', description='RoomInventory related operations', authorizations=authorizations)
 
@@ -35,18 +35,19 @@ ri_parser.add_argument('hotel_id', location='args', help='Hotel id cannot be bla
 
 @api.route('/')
 class RoomInventoriesResource(Resource):
+    @api.doc(security='authToken', responses={200: 'Success', 401: 'Unauthorized'})
     @login_required(permission='inventory.view')
     @api.expect(ri_parser)
     @api.marshal_list_with(room_inventory_fields)
     def get(self, token_data):
         '''Get room inventories'''
         args = ri_parser.parse_args()
-        room_inventories = RoomInventory.find_by_hotel(args['hotel_id'])
+        room_inventories = find_room_inventories_by_hotel(args['hotel_id'])
         return list(room_inventories), 200
 
-    @api.doc(security='authToken')
+    @api.doc(security='authToken', responses={401: 'Unauthorized'})
     @api.expect(room_inventory_fields, validate=True)
-    @api.marshal_with(room_inventory_fields, code=201, mask='_id')
+    @api.marshal_with(room_inventory_fields, code=201, description='Created', mask='_id')
     @login_required(permission='inventory.add')
     def post(self, token_data):
         '''Create room inventory'''
@@ -64,6 +65,7 @@ search_parser.add_argument('adults', type=int, required=True, help='Adults canno
 
 
 @api.route('/availableItems')
+@api.doc(responses={200: 'Success'})
 class AvailableRoomInventoriesResource(Resource):
     @api.expect(search_parser)
     @api.marshal_list_with(room_inventory_fields)

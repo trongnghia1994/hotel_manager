@@ -2,9 +2,9 @@ from datetime import datetime
 
 from flask_restplus import Namespace, Resource, fields
 
+from common import authorizations
 from core.models.accommodation import Accommodation
 from decorators import login_required
-from common import authorizations
 
 api = Namespace('accommodation', description='Accomodation related operations', authorizations=authorizations)
 
@@ -17,12 +17,12 @@ accommodation_fields = api.model('Accommodation', {
 })
 
 
-@api.doc(security='authToken')
+@api.doc(security='authToken', responses={401: 'Unauthorized'})
 @api.route('/')
 class AccommodationResource(Resource):
     @api.expect(accommodation_fields, validate=True)
     @login_required('accommodation.add')
-    @api.marshal_with(accommodation_fields, code=201, mask='_id')
+    @api.marshal_with(accommodation_fields, code=201, description='Created', mask='_id')
     def post(self, token_data):
         '''Create accommodation'''
         accommodation = Accommodation.from_document(api.payload)

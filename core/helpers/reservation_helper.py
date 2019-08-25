@@ -1,10 +1,13 @@
-from ..models import Reservation, RoomInventory
 from datetime import datetime
+
+from bson import ObjectId
+
+from ..models import Reservation, RoomInventory, Accommodation
 
 
 def confirm_reservation(reservation_id, conf_number):
     status = "confirmed" if conf_number == "1" else "cancelled"
-    reservation = Reservation.get_by_id(reservation_id)
+    reservation = Reservation.find_reservation(reservation_id)
     reservation.conf_number = conf_number
     reservation.status = status
     return reservation.save()
@@ -13,7 +16,7 @@ def confirm_reservation(reservation_id, conf_number):
 def create_reservation(payload):
     check_in = datetime.strptime(payload['check_in'], "%Y-%m-%dT%H:%M:%S.%fZ")
     check_out = datetime.strptime(payload['check_out'], "%Y-%m-%dT%H:%M:%S.%fZ")
-    room_inventory = RoomInventory.find_by_id(payload['room_inventory_id'])
+    room_inventory = RoomInventory.find_room_inventory(payload['room_inventory_id'])
 
     for rate in room_inventory.daily_rates:
         print rate.date, type(rate.date)
@@ -25,3 +28,12 @@ def create_reservation(payload):
     reservation = Reservation.from_document(payload)
     reservation.created_at = datetime.utcnow()
     return reservation.save()
+
+
+def find_reservations_by_hotel(hotel_id):
+    accommodations = Accommodation.objects.raw({'hotel_id': ObjectId(hotel_id)})
+    acc_ids = [a._id for a in list(accommodations) if accommodations]
+    room_inventories = RoomInventory.objects.raw({'accommodation_id': {'$in': acc_ids}})
+    ri_ids = [ri._id for ri in list(room_inventories) if room_inventories]
+    reservations = Reservation.objects.raw({'accommodation_id': {'$in': ri_ids}, 'status': 'pending'})
+    return reservations

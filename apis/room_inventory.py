@@ -51,7 +51,6 @@ class RoomInventoriesResource(Resource):
     @login_required(permission='inventory.add')
     def post(self, token_data):
         '''Create room inventory'''
-        print api.payload
         room_inventory = RoomInventory.from_document(api.payload)
         room_inventory.created_at = datetime.utcnow()
         return room_inventory.save(), 201

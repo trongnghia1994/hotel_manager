@@ -19,7 +19,6 @@ def create_reservation(payload):
     room_inventory = RoomInventory.find_room_inventory(payload['room_inventory_id'])
 
     for rate in room_inventory.daily_rates:
-        print rate.date, type(rate.date)
         if check_in <= rate.date <= check_out:
             rate.remain -= 1
 
@@ -35,5 +34,5 @@ def find_reservations_by_hotel(hotel_id):
     acc_ids = [a._id for a in list(accommodations) if accommodations]
     room_inventories = RoomInventory.objects.raw({'accommodation_id': {'$in': acc_ids}})
     ri_ids = [ri._id for ri in list(room_inventories) if room_inventories]
-    reservations = Reservation.objects.raw({'accommodation_id': {'$in': ri_ids}, 'status': 'pending'})
+    reservations = Reservation.objects.raw({'room_inventory_id': {'$in': ri_ids}, 'status': 'pending'})
     return reservations

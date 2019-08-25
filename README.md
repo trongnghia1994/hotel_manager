@@ -2,8 +2,10 @@ A sample for RESTFul API web services
 ============
 
 * RESTFul API web services with Python 2.7.x, flask, flask-restplus
-* Self-documented with Swagger. Documentation for API version 1 is available at /api/v1/docs, for example http://localhost:5000/api/v1/docs
 * Check user *login required* and *permission required* via decorators
+* Login, logout via populating Flask session and use JWT token
+* Connect to MongoDb on MongoAtlas, use pymodm as model framework
+* Self-documented with Swagger. Documentation for API version 1 is available at /api/v1/docs, for example http://localhost:5000/api/v1/docs
 
 Examples:
 1. Search available rooms:  
@@ -29,3 +31,6 @@ Example users:
 	manager@gmail.com 123456
 4. user: accommodation permissions  
 	user@gmail.com 123456
+
+**How to run:**  
+Simply **python app.py**

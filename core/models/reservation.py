@@ -17,7 +17,7 @@ class Reservation(MongoModel):
     email = fields.CharField()
     phone = fields.CharField()
     message = fields.CharField()
-    conf_number = fields.CharField(default='1')
+    conf_number = fields.CharField(default='')
     status = fields.CharField(choices=('pending', 'confirmed', 'cancelled'), default='pending')
     created_at = fields.DateTimeField()
     updated_at = fields.DateTimeField(default=datetime.utcnow())

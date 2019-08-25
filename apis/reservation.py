@@ -45,7 +45,7 @@ class ReservationsResource(Resource):
 
 
 conf_parser = reqparse.RequestParser()
-conf_parser.add_argument('conf_number', required=True, help='Conf number cannot be blank')
+conf_parser.add_argument('conf_number', required=True, help='1: confirmed, 0: cancelled', choices=('1', '0'))
 
 
 @api.doc(security='authToken', responses={200: 'Success', 401: 'Unauthorized'})

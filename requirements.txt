@@ -2,7 +2,7 @@ aniso8601==7.0.0
 attrs==19.1.0
 cffi==1.12.3
 Click==7.0
-cryptography==1.7.2
+cryptography==3.2
 enum34==1.1.6
 Flask==1.0.2
 flask-restplus==0.13.0
